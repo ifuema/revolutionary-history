@@ -20,4 +20,33 @@ public class UserServiceImpl implements UserService {
     public User getUserPrivateByUAccount(Long uAccount) {
         return userMapper.selectUserPrivateByUAccount(uAccount);
     }
+
+    /**
+     * 根据账号文本判断是否已存在用户
+     * @param uAccount
+     * @return
+     */
+    @Override
+    public boolean checkUserByUAccount(Long uAccount) {
+        Integer dataUId = userMapper.selectUIdByUAccount(uAccount);
+        if (dataUId == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean saveUser(User user) {
+        if (userMapper.insertUser(user) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -2,6 +2,7 @@ package indi.revolutionaryhistory.controller.user;
 
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Login;
+import indi.revolutionaryhistory.entity.groups.Register;
 import indi.revolutionaryhistory.service.UserService;
 import indi.revolutionaryhistory.vo.ResultCode;
 import indi.revolutionaryhistory.vo.ResultVO;
@@ -48,6 +49,25 @@ public class UserController {
                 return success;
             } else {
                 return accountOrPasswordError;
+            }
+        }
+    }
+
+    /**
+     * 注册请求
+     * @param user
+     * @return
+     */
+    @PostMapping
+    public ResultVO<?> register(@RequestBody @Validated({Register.class}) User user) {
+        if (userService.checkUserByUAccount(user.getuAccount())) {
+            return accountExist;
+        } else {
+            user.setuPassword(BCrypt.hashpw(user.getuPassword(), BCrypt.gensalt()));
+            if (userService.saveUser(user)) {
+                return new ResultVO<>(user.getuId());
+            } else {
+                return registerFailed;
             }
         }
     }

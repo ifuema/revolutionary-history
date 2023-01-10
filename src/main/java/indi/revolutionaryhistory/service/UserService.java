@@ -9,4 +9,18 @@ public interface UserService {
      * @return
      */
     User getUserPrivateByUAccount(Long uAccount);
+
+    /**
+     * 根据账号文本判断是否已存在用户
+     * @param uAccount
+     * @return
+     */
+    boolean checkUserByUAccount(Long uAccount);
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    boolean saveUser(User user);
 }
