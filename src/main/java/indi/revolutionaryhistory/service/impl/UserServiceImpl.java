@@ -49,4 +49,24 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    /**
+     * 根据账号密码获取用户id
+     * @param user
+     * @return
+     */
+    @Override
+    public Integer getUIdByUAccountAndUPassword(User user) {
+        return userMapper.selectUIdByUAccountAndUPassword(user);
+    }
+
+    /**
+     * 根据id文本获取用户信息
+     * @param uId
+     * @return
+     */
+    @Override
+    public User getUserByUId(Integer uId) {
+        return userMapper.selectUserByUId(uId);
+    }
 }

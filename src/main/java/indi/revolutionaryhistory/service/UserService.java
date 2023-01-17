@@ -23,4 +23,18 @@ public interface UserService {
      * @return
      */
     boolean saveUser(User user);
+
+    /**
+     * 根据账号密码获取用户id
+     * @param user
+     * @return
+     */
+    Integer getUIdByUAccountAndUPassword(User user);
+
+    /**
+     * 根据id文本获取用户信息
+     * @param uId
+     * @return
+     */
+    User getUserByUId(Integer uId);
 }

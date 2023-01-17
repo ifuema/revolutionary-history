@@ -1,18 +1,29 @@
 package indi.revolutionaryhistory.config;
 
+import indi.revolutionaryhistory.config.interceptor.UserInterceptor;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+    @Resource
+    private UserInterceptor userInterceptor;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOriginPatterns("*").allowedHeaders("*").allowedMethods("*").allowCredentials(true);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(userInterceptor).addPathPatterns("/user/vip/**");
     }
 
     @Bean
