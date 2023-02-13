@@ -44,4 +44,19 @@ public class EssayServiceImpl implements EssayService {
             return false;
         }
     }
+
+    /**
+     * 根据id文本判断是否已存在文章
+     * @param eId
+     * @return
+     */
+    @Override
+    public boolean checkEssayByEId(Integer eId) {
+        Integer dataEId = essayMapper.selectEIdByEId(eId);
+        if (dataEId == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

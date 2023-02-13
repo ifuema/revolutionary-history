@@ -22,4 +22,11 @@ public interface EssayService {
     Essay getEssayByEId(Integer eId);
 
     boolean modifyENumAddByEId(Integer eId);
+
+    /**
+     * 根据id文本判断是否已存在文章
+     * @param eId
+     * @return
+     */
+    boolean checkEssayByEId(Integer eId);
 }

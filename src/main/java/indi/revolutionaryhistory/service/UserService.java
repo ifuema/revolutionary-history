@@ -37,4 +37,11 @@ public interface UserService {
      * @return
      */
     User getUserByUId(Integer uId);
+
+    /**
+     * 根据id修改用户
+     * @param user
+     * @return
+     */
+    boolean modifyUserByUId(User user);
 }

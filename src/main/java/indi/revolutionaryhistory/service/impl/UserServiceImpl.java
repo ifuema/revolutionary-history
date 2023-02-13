@@ -69,4 +69,18 @@ public class UserServiceImpl implements UserService {
     public User getUserByUId(Integer uId) {
         return userMapper.selectUserByUId(uId);
     }
+
+    /**
+     * 根据id修改用户
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean modifyUserByUId(User user) {
+        if (userMapper.updateUserByUId(user) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

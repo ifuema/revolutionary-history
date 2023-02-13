@@ -31,4 +31,12 @@ public interface EssayMapper {
 
     @Update("UPDATE essay SET e_num = e_num + 1 WHERE e_id = #{eId}")
     Integer updateENumAddByEId(Integer eId);
+
+    /**
+     * 根据id文本查询文章id
+     * @param eId
+     * @return
+     */
+    @Select("SELECT e_id FROM essay WHERE e_id = #{eId}")
+    Integer selectEIdByEId(Integer eId);
 }

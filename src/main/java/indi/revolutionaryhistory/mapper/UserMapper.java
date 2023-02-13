@@ -1,10 +1,7 @@
 package indi.revolutionaryhistory.mapper;
 
 import indi.revolutionaryhistory.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -49,4 +46,13 @@ public interface UserMapper {
      */
     @Select("SELECT u_id, u_name, u_account, u_address, u_email FROM user WHERE u_id = #{uId}")
     User selectUserByUId(Integer uId);
+
+    /**
+     * 根据id文本修改用户
+     * @param user
+     * @return
+     */
+    @Update("UPDATE user SET u_name = #{uName}, u_account = #{uAccount}, u_password = #{uPassword}, " +
+            "u_address = #{uAddress}, u_email = #{uEmail} WHERE u_id = #{uId}")
+    Integer updateUserByUId(User user);
 }
