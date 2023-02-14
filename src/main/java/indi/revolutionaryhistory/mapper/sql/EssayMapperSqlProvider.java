@@ -17,6 +17,10 @@ public class EssayMapperSqlProvider {
             if (essay.geteType() != null) {
                 WHERE("e_type = #{essay.eType}");
             }
+            if (essay.geteSource() != null && essay.geteSource() != "") {
+                essay.seteSource("%" + essay.geteSource() + "%");
+                WHERE("e_source LIKE #{essay.eSource}");
+            }
             LIMIT("#{pageSize}").OFFSET("#{startIndex}");
         }}.toString();
     }

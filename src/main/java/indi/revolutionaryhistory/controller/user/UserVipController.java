@@ -1,6 +1,7 @@
 package indi.revolutionaryhistory.controller.user;
 
 import indi.revolutionaryhistory.entity.Collect;
+import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Register;
 import indi.revolutionaryhistory.service.CollectService;
@@ -15,6 +16,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user/vip")
 public class UserVipController {
@@ -26,10 +29,15 @@ public class UserVipController {
     private EssayService essayService;
     private final ResultVO<?> userNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "用户不存在！");
     private final ResultVO<?> essayNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "文章不存在！");
+    private final ResultVO<?> notExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, null);
     private final ResultVO<?> success = new ResultVO<>();
+    private final ResultVO<?> exist = new ResultVO<>(ResultCode.SUCCESS, null);
     private final ResultVO<?> saveFailed = new ResultVO<>(ResultCode.FAILED, "保存失败！");
     private final ResultVO<?> accountExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "账号已存在！");
     private final ResultVO<?> collectExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "不能重复收藏！");
+    private final ResultVO<?> collectNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "没有被收藏！");
+    private final ResultVO<?> deleteFailed = new ResultVO<>(ResultCode.FAILED, "删除失败！");
+    private final ResultVO<?> noData = new ResultVO<>(ResultCode.VALIDATE_FAILED, "不存在数据！");
 
 
     /**
@@ -82,7 +90,7 @@ public class UserVipController {
         collect.setuId(sessionUser.getuId());
         if (!essayService.checkEssayByEId(eId)) {
             return essayNotExist;
-        } else if (collectService.checkCollect(collect)) {
+        } else if (collectService.checkCollectByCollect(collect)) {
             return collectExist;
         } else {
             if (collectService.saveCollect(collect)) {
@@ -92,4 +100,49 @@ public class UserVipController {
             }
         }
     }
+
+    @DeleteMapping("/collect/{eId}")
+    public ResultVO<?> deleteCollect(@PathVariable Integer eId, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("user");
+        Collect collect = new Collect();
+        collect.seteId(eId);
+        collect.setuId(sessionUser.getuId());
+        if (collectService.checkCollectByCollect(collect)) {
+            if (collectService.removeCollectByCollect(collect)) {
+                return success;
+            } else {
+                return deleteFailed;
+            }
+        } else {
+            return collectNotExist;
+        }
+    }
+
+    @GetMapping("/collect/{eId}")
+    public ResultVO<?> checkCollect(@PathVariable Integer eId, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("user");
+        Collect collect = new Collect();
+        collect.seteId(eId);
+        collect.setuId(sessionUser.getuId());
+        if (collectService.checkCollectByCollect(collect)) {
+            return exist;
+        } else {
+            return notExist;
+        }
+    }
+
+    @GetMapping("/collect")
+    public ResultVO<?> collect(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("user");
+        List<Collect> dataCollectList = collectService.getCollectListByUID(sessionUser.getuId());
+        if (dataCollectList.isEmpty()) {
+            return noData;
+        } else {
+            return new ResultVO<>(dataCollectList);
+        }
+    }
+
 }

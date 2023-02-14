@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.Instant;
+
 public class Essay {
   //文章编号
   private Integer eId;
@@ -22,6 +24,8 @@ public class Essay {
   @NotNull(message = "类型不能为空！", groups = {Register.class})
   private Integer eType;
   private Integer eNum;
+  private Instant eTime;
+  private String eSource;
 
 
   public Integer geteId() {
@@ -74,6 +78,22 @@ public class Essay {
 
   public void seteNum(Integer eNum) {
     this.eNum = eNum;
+  }
+
+  public Instant geteTime() {
+    return eTime;
+  }
+
+  public void seteTime(Instant eTime) {
+    this.eTime = eTime;
+  }
+
+  public String geteSource() {
+    return eSource;
+  }
+
+  public void seteSource(String eSource) {
+    this.eSource = eSource;
   }
 
   @Override
