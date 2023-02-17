@@ -25,6 +25,8 @@ public class Essay {
   private Integer eType;
   private Integer eNum;
   private Instant eTime;
+  @NotBlank(message = "来源不能为空！", groups = {Register.class})
+  @Size(max = 16, message = "来源过长！", groups = {Register.class})
   private String eSource;
 
 
