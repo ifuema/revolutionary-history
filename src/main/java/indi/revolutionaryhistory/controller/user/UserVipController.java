@@ -1,10 +1,12 @@
 package indi.revolutionaryhistory.controller.user;
 
 import indi.revolutionaryhistory.entity.Collect;
+import indi.revolutionaryhistory.entity.Discuss;
 import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Register;
 import indi.revolutionaryhistory.service.CollectService;
+import indi.revolutionaryhistory.service.DiscussService;
 import indi.revolutionaryhistory.service.EssayService;
 import indi.revolutionaryhistory.service.UserService;
 import indi.revolutionaryhistory.vo.ResultCode;
@@ -27,6 +29,8 @@ public class UserVipController {
     private CollectService collectService;
     @Resource
     private EssayService essayService;
+    @Resource
+    private DiscussService discussService;
     private final ResultVO<?> userNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "用户不存在！");
     private final ResultVO<?> essayNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "文章不存在！");
     private final ResultVO<?> notExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, null);
@@ -145,4 +149,19 @@ public class UserVipController {
         }
     }
 
+    @PostMapping("/discuss")
+    public ResultVO<?> addDiscuss(@RequestBody @Validated({Register.class}) Discuss discuss, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("user");
+        discuss.setuId(sessionUser.getuId());
+        if (!essayService.checkEssayByEId(discuss.geteId())) {
+            return essayNotExist;
+        } else {
+            if (discussService.saveDiscuss(discuss)) {
+                return success;
+            } else {
+                return saveFailed;
+            }
+        }
+    }
 }
