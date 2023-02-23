@@ -28,7 +28,16 @@ public class Essay {
   @NotBlank(message = "来源不能为空！", groups = {Register.class})
   @Size(max = 16, message = "来源过长！", groups = {Register.class})
   private String eSource;
+  private String eVideo;
 
+
+  public String geteVideo() {
+    return eVideo;
+  }
+
+  public void seteVideo(String eVideo) {
+    this.eVideo = eVideo;
+  }
 
   public Integer geteId() {
     return eId;
@@ -107,6 +116,9 @@ public class Essay {
             ", eBody='" + eBody + '\'' +
             ", eType=" + eType +
             ", eNum=" + eNum +
+            ", eTime=" + eTime +
+            ", eSource='" + eSource + '\'' +
+            ", eVideo='" + eVideo + '\'' +
             '}';
   }
 }

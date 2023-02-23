@@ -1,10 +1,13 @@
 package indi.revolutionaryhistory.entity;
 
+import java.time.Instant;
+
 public class Discuss {
   private Integer dId;
   private Integer uId;
   private Integer eId;
   private String dBody;
+  private Instant dTime;
 
 
   @Override
@@ -14,11 +17,20 @@ public class Discuss {
             ", uId=" + uId +
             ", eId=" + eId +
             ", dBody='" + dBody + '\'' +
+            ", dTime=" + dTime +
             '}';
   }
 
   public Integer getdId() {
     return dId;
+  }
+
+  public Instant getdTime() {
+    return dTime;
+  }
+
+  public void setdTime(Instant dTime) {
+    this.dTime = dTime;
   }
 
   public void setdId(Integer dId) {

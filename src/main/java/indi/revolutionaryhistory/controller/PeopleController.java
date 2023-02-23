@@ -1,6 +1,5 @@
 package indi.revolutionaryhistory.controller;
 
-import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.People;
 import indi.revolutionaryhistory.service.PeopleService;
 import indi.revolutionaryhistory.vo.ResultCode;
