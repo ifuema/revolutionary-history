@@ -83,4 +83,13 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public boolean modifyUserUImgByUId(User user) {
+        if (userMapper.updateUserUImgByUId(user) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

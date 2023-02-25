@@ -26,7 +26,16 @@ public class User {
   @NotBlank(message = "地址不能为空！", groups = {Register.class})
   @Size(max = 255, message = "地址过长！", groups = {Register.class})
   private String uAddress;
+  private String uImg;
 
+
+  public String getuImg() {
+    return uImg;
+  }
+
+  public void setuImg(String uImg) {
+    this.uImg = uImg;
+  }
 
   public Integer getuId() {
     return uId;
@@ -85,6 +94,7 @@ public class User {
             ", uPassword='" + uPassword + '\'' +
             ", uEmail='" + uEmail + '\'' +
             ", uAddress='" + uAddress + '\'' +
+            ", uImg='" + uImg + '\'' +
             '}';
   }
 }

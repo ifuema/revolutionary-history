@@ -17,8 +17,12 @@ import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user/vip")
@@ -37,6 +41,7 @@ public class UserVipController {
     private final ResultVO<?> success = new ResultVO<>();
     private final ResultVO<?> exist = new ResultVO<>(ResultCode.SUCCESS, null);
     private final ResultVO<?> saveFailed = new ResultVO<>(ResultCode.FAILED, "保存失败！");
+    private final ResultVO<?> uploadFailed = new ResultVO<>(ResultCode.FAILED, "上传失败！");
     private final ResultVO<?> accountExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "账号已存在！");
     private final ResultVO<?> collectExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "不能重复收藏！");
     private final ResultVO<?> collectNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "没有被收藏！");
@@ -162,6 +167,29 @@ public class UserVipController {
             } else {
                 return saveFailed;
             }
+        }
+    }
+
+    @PostMapping("/uImg")
+    public ResultVO<?> addUImg(MultipartFile uploadFile, HttpServletRequest request) {
+        String oldName = uploadFile.getOriginalFilename();
+        String newName = UUID.randomUUID() + oldName.substring(oldName.lastIndexOf("."), oldName.length());
+        String realPath = request.getServletContext().getRealPath("/user/uimg/");
+        File file = new File(realPath + newName);
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("user");
+        User user = new User();
+        user.setuId(sessionUser.getuId());
+        user.setuImg(newName);
+        try {
+            uploadFile.transferTo(file);
+            if (userService.modifyUserUImgByUId(user)) {
+                return success;
+            } else {
+                return saveFailed;
+            }
+        } catch (IOException e) {
+            return uploadFailed;
         }
     }
 }

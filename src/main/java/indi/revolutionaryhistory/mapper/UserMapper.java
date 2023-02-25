@@ -44,7 +44,7 @@ public interface UserMapper {
      * @param uId
      * @return
      */
-    @Select("SELECT u_id, u_name, u_account, u_address, u_email FROM user WHERE u_id = #{uId}")
+    @Select("SELECT u_id, u_name, u_account, u_address, u_email, u_img FROM user WHERE u_id = #{uId}")
     User selectUserByUId(Integer uId);
 
     /**
@@ -55,4 +55,7 @@ public interface UserMapper {
     @Update("UPDATE user SET u_name = #{uName}, u_account = #{uAccount}, u_password = #{uPassword}, " +
             "u_address = #{uAddress}, u_email = #{uEmail} WHERE u_id = #{uId}")
     Integer updateUserByUId(User user);
+
+    @Update("UPDATE user SET u_img = #{uImg} WHERE u_id = #{uId}")
+    Integer updateUserUImgByUId(User user);
 }
