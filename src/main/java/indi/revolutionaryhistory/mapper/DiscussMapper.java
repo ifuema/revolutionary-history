@@ -1,8 +1,6 @@
 package indi.revolutionaryhistory.mapper;
 
-import indi.revolutionaryhistory.entity.Collect;
 import indi.revolutionaryhistory.entity.Discuss;
-import indi.revolutionaryhistory.entity.Essay;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

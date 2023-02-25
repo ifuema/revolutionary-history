@@ -1,6 +1,5 @@
 package indi.revolutionaryhistory.service;
 
-import indi.revolutionaryhistory.entity.Collect;
 import indi.revolutionaryhistory.entity.Discuss;
 
 import java.util.List;

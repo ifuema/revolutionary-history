@@ -2,7 +2,6 @@ package indi.revolutionaryhistory.controller.user;
 
 import indi.revolutionaryhistory.entity.Collect;
 import indi.revolutionaryhistory.entity.Discuss;
-import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Register;
 import indi.revolutionaryhistory.service.CollectService;
@@ -15,6 +14,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +35,10 @@ public class UserVipController {
     private EssayService essayService;
     @Resource
     private DiscussService discussService;
+    @Value("${public.path}")
+    private String publicPath;
+    @Value("${user.uImg}")
+    private String userUImg;
     private final ResultVO<?> userNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "用户不存在！");
     private final ResultVO<?> essayNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "文章不存在！");
     private final ResultVO<?> notExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, null);
@@ -174,15 +178,17 @@ public class UserVipController {
     public ResultVO<?> addUImg(MultipartFile uImg, HttpServletRequest request) {
         String oldName = uImg.getOriginalFilename();
         String newName = UUID.randomUUID() + oldName.substring(oldName.lastIndexOf("."), oldName.length());
-        String realPath = request.getServletContext().getRealPath("/user/uimg/");
-        File file = new File(realPath + newName);
+        File folder = new File(publicPath + userUImg);
         HttpSession session = request.getSession();
         User sessionUser = (User) session.getAttribute("user");
         User user = new User();
         user.setuId(sessionUser.getuId());
-        user.setuImg(newName);
+        user.setuImg(userUImg + "/" + newName);
         try {
-            uImg.transferTo(file);
+            if (!folder.isDirectory()) {
+                folder.mkdirs();
+            }
+            uImg.transferTo(new File(folder, newName));
             if (userService.modifyUserUImgByUId(user)) {
                 return success;
             } else {

@@ -1,8 +1,6 @@
 package indi.revolutionaryhistory.service.impl;
 
-import indi.revolutionaryhistory.entity.Collect;
 import indi.revolutionaryhistory.entity.Discuss;
-import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.mapper.DiscussMapper;
 import indi.revolutionaryhistory.service.DiscussService;
 import jakarta.annotation.Resource;
