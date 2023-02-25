@@ -171,8 +171,8 @@ public class UserVipController {
     }
 
     @PostMapping("/uImg")
-    public ResultVO<?> addUImg(MultipartFile uploadFile, HttpServletRequest request) {
-        String oldName = uploadFile.getOriginalFilename();
+    public ResultVO<?> addUImg(MultipartFile uImg, HttpServletRequest request) {
+        String oldName = uImg.getOriginalFilename();
         String newName = UUID.randomUUID() + oldName.substring(oldName.lastIndexOf("."), oldName.length());
         String realPath = request.getServletContext().getRealPath("/user/uimg/");
         File file = new File(realPath + newName);
@@ -182,7 +182,7 @@ public class UserVipController {
         user.setuId(sessionUser.getuId());
         user.setuImg(newName);
         try {
-            uploadFile.transferTo(file);
+            uImg.transferTo(file);
             if (userService.modifyUserUImgByUId(user)) {
                 return success;
             } else {
