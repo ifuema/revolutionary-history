@@ -92,4 +92,9 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public User getUserPublicByUId(Integer uId) {
+        return userMapper.selectUserPublicByUId(uId);
+    }
 }

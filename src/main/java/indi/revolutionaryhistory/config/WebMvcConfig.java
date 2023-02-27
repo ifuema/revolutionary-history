@@ -1,5 +1,6 @@
 package indi.revolutionaryhistory.config;
 
+import indi.revolutionaryhistory.config.interceptor.AdminInterceptor;
 import indi.revolutionaryhistory.config.interceptor.UserInterceptor;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,8 @@ import java.time.format.DateTimeFormatter;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Resource
     private UserInterceptor userInterceptor;
+    @Resource
+    private AdminInterceptor adminInterceptor;
     @Value("${public.path}")
     private String publicPath;
 
@@ -34,6 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor).addPathPatterns("/user/vip/**");
+        registry.addInterceptor(adminInterceptor).addPathPatterns("/admin/vip/**");
     }
 
     @Bean

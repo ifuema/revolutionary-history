@@ -58,4 +58,7 @@ public interface UserMapper {
 
     @Update("UPDATE user SET u_img = #{uImg} WHERE u_id = #{uId}")
     Integer updateUserUImgByUId(User user);
+
+    @Select("SELECT u_id, u_name, u_img FROM user WHERE u_id = #{uId}")
+    User selectUserPublicByUId(Integer uId);
 }

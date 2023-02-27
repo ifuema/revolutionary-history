@@ -44,5 +44,8 @@ public interface UserService {
      * @return
      */
     boolean modifyUserByUId(User user);
+
     boolean modifyUserUImgByUId(User user);
+
+    User getUserPublicByUId(Integer uId);
 }

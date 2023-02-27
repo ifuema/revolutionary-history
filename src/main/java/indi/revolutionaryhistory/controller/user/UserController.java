@@ -1,5 +1,6 @@
 package indi.revolutionaryhistory.controller.user;
 
+import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Login;
 import indi.revolutionaryhistory.entity.groups.Register;
@@ -10,10 +11,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +20,7 @@ public class UserController {
     private UserService userService;
     private final ResultVO<?> success = new ResultVO<>();
     private final ResultVO<?> accountNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "账号不存在！");
+    private final ResultVO<?> userNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "用户不存在！");
     private final ResultVO<?> accountExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "账号已存在！");
     private final ResultVO<?> registerFailed = new ResultVO<>(ResultCode.FAILED, "注册失败！");
     private final ResultVO<?> accountOrPasswordError = new ResultVO<>(ResultCode.VALIDATE_FAILED, "账号或密码错误！");
@@ -69,6 +68,16 @@ public class UserController {
             } else {
                 return registerFailed;
             }
+        }
+    }
+
+    @GetMapping("/{uId}")
+    public ResultVO<?> getUser(@PathVariable Integer uId) {
+        User dataUser = userService.getUserPublicByUId(uId);
+        if (dataUser == null) {
+            return userNotExist;
+        } else {
+            return new ResultVO<>(dataUser);
         }
     }
 }
