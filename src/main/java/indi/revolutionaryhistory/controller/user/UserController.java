@@ -80,4 +80,15 @@ public class UserController {
             return new ResultVO<>(dataUser);
         }
     }
+
+    /**
+     * 登出
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/session")
+    public ResultVO<?> logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("user");
+        return success;
+    }
 }
