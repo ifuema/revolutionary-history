@@ -1,4 +1,4 @@
-package indi.revolutionaryhistory.controller;
+package indi.revolutionaryhistory.controller.admin;
 
 import indi.revolutionaryhistory.entity.Admin;
 import indi.revolutionaryhistory.entity.groups.Login;

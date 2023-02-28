@@ -1,7 +1,10 @@
 package indi.revolutionaryhistory.mapper;
 
 import indi.revolutionaryhistory.entity.User;
+import indi.revolutionaryhistory.mapper.sql.UserMapperSqlProvider;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -20,6 +23,9 @@ public interface UserMapper {
      */
     @Select("SELECT u_id FROM user WHERE u_account = #{uAccount}")
     Integer selectUIdByUAccount(Long uAccount);
+
+    @SelectProvider(type = UserMapperSqlProvider.class, method = "selectUserListPageByUserSql")
+    List<User> selectUserListPageByUser(int pageSize, Integer startIndex, User user);
 
     /**
      *插入一条用户信息
@@ -61,4 +67,20 @@ public interface UserMapper {
 
     @Select("SELECT u_id, u_name, u_img FROM user WHERE u_id = #{uId}")
     User selectUserPublicByUId(Integer uId);
+
+    /**
+     * 根据id文本查询用户id
+     * @param uId
+     * @return
+     */
+    @Select("SELECT u_id FROM user WHERE u_id = #{uId}")
+    Integer selectUIdByUId(Integer uId);
+
+    /**
+     * 根据id文本删除用户
+     * @param uId
+     * @return
+     */
+    @Delete("DELETE FROM user WHERE u_id = #{uId}")
+    Integer deleteUserByUId(Integer uId);
 }

@@ -2,6 +2,8 @@ package indi.revolutionaryhistory.service;
 
 import indi.revolutionaryhistory.entity.User;
 
+import java.util.List;
+
 public interface UserService {
     /**
      * 根据账号文本获取用户隐私信息
@@ -44,8 +46,30 @@ public interface UserService {
      * @return
      */
     boolean modifyUserByUId(User user);
+    /**
+     * 根据过滤用户信息分页获取用户列表
+     * @param pageSize
+     * @param pageNum
+     * @param user
+     * @return
+     */
+    List<User> getUserListPageByUser(int pageSize, Integer pageNum, User user);
 
     boolean modifyUserUImgByUId(User user);
 
     User getUserPublicByUId(Integer uId);
+
+    /**
+     * 根据id文本判断是否已存在用户
+     * @param uId
+     * @return
+     */
+    boolean checkUserByUId(Integer uId);
+
+    /**
+     * 根据id删除用户
+     * @param uId
+     * @return
+     */
+    boolean removeUserByUId(Integer uId);
 }
