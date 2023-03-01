@@ -28,4 +28,33 @@ public class DiscussServiceImpl implements DiscussService {
             return false;
         }
     }
+
+    /**
+     * 根据id文本判断是否已存在评论
+     * @param dId
+     * @return
+     */
+    @Override
+    public boolean checkDiscussByDId(Integer dId) {
+        Integer dataDId = discussMapper.selectDIdByDId(dId);
+        if (dataDId == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 根据id删除评论
+     * @param dId
+     * @return
+     */
+    @Override
+    public boolean removeDiscussByDId(Integer dId) {
+        if (discussMapper.deleteDiscussByDId(dId) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

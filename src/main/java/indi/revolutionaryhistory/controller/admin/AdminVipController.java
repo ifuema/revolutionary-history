@@ -1,14 +1,19 @@
 package indi.revolutionaryhistory.controller.admin;
 
 import indi.revolutionaryhistory.entity.Admin;
+import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.User;
+import indi.revolutionaryhistory.entity.groups.Register;
 import indi.revolutionaryhistory.service.AdminService;
+import indi.revolutionaryhistory.service.DiscussService;
+import indi.revolutionaryhistory.service.EssayService;
 import indi.revolutionaryhistory.service.UserService;
 import indi.revolutionaryhistory.vo.ResultCode;
 import indi.revolutionaryhistory.vo.ResultVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +25,17 @@ public class AdminVipController {
     private AdminService adminService;
     @Resource
     private UserService userService;
+    @Resource
+    private DiscussService discussService;
+    @Resource
+    private EssayService essayService;
     private int pageSize = 5;
     private final ResultVO<?> success = new ResultVO<>();
+    private final ResultVO<?> essayNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "文章不存在！");
+    private final ResultVO<?> saveFailed = new ResultVO<>(ResultCode.FAILED, "保存失败！");
     private final ResultVO<?> deleteFailed = new ResultVO<>(ResultCode.FAILED, "删除失败！");
     private final ResultVO<?> userNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "用户不存在！");
+    private final ResultVO<?> discussNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "评论不存在！");
     private final ResultVO<?> noData = new ResultVO<>(ResultCode.VALIDATE_FAILED, "当前页不存在数据！");
     private final ResultVO<?> adminNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "管理员不存在！");
 
@@ -65,6 +77,55 @@ public class AdminVipController {
             }
         } else {
             return userNotExist;
+        }
+    }
+
+    @DeleteMapping("/discuss/{dId}")
+    public ResultVO<?> deleteDiscuss(@PathVariable Integer dId) {
+        if (discussService.checkDiscussByDId(dId)) {
+            if (discussService.removeDiscussByDId(dId)) {
+                return success;
+            } else {
+                return deleteFailed;
+            }
+        } else {
+            return discussNotExist;
+        }
+    }
+
+    @PostMapping("/essay")
+    public ResultVO<?> addEssay(@RequestBody @Validated({Register.class}) Essay essay) {
+        if (essayService.saveEssay(essay)) {
+            return new ResultVO<>(essay.geteId());
+        } else {
+            return saveFailed;
+        }
+    }
+
+    @PutMapping("/essay/{eId}")
+    public ResultVO<?> changeEssay(@RequestBody @Validated({Register.class}) Essay essay, @PathVariable Integer eId) {
+        if (essayService.checkEssayByEId(eId)) {
+            essay.seteId(eId);
+            if (essayService.modifyEssayByEId(essay)) {
+                return success;
+            } else {
+                return saveFailed;
+            }
+        } else {
+            return essayNotExist;
+        }
+    }
+
+    @DeleteMapping("/essay/{eId}")
+    public ResultVO<?> deleteEssay(@PathVariable Integer eId) {
+        if (essayService.checkEssayByEId(eId)) {
+            if (essayService.removeEssayByEId(eId)) {
+                return success;
+            } else {
+                return deleteFailed;
+            }
+        } else {
+            return essayNotExist;
         }
     }
 }

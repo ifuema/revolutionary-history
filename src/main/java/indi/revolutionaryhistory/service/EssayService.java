@@ -29,4 +29,25 @@ public interface EssayService {
      * @return
      */
     boolean checkEssayByEId(Integer eId);
+
+    /**
+     * 新增文章
+     * @param essay
+     * @return
+     */
+    boolean saveEssay(Essay essay);
+
+    /**
+     * 根据id修改文章
+     * @param essay
+     * @return
+     */
+    boolean modifyEssayByEId(Essay essay);
+
+    /**
+     * 根据id文本删除文章
+     * @param eId
+     * @return
+     */
+    boolean removeEssayByEId(Integer eId);
 }

@@ -2,10 +2,7 @@ package indi.revolutionaryhistory.mapper;
 
 import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.mapper.sql.EssayMapperSqlProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -39,4 +36,31 @@ public interface EssayMapper {
      */
     @Select("SELECT e_id FROM essay WHERE e_id = #{eId}")
     Integer selectEIdByEId(Integer eId);
+
+    /**
+     * 插入一条文章信息
+     * @param essay
+     * @return
+     */
+    @Insert("INSERT INTO essay (e_title, e_img, e_body, e_type, e_source, e_video, e_num, e_time) " +
+            "VALUES (#{eTitle}, #{eImg}, #{eBody}, #{eType}, #{eSource}, #{eVideo}, #{eNum}, #{eTime})")
+    @Options(useGeneratedKeys = true, keyProperty = "eId", keyColumn = "e_id")
+    Integer insertEssay(Essay essay);
+
+    /**
+     * 根据id文本修改文章
+     * @param essay
+     * @return
+     */
+    @Update("UPDATE essay SET e_title = #{eTitle}, e_img = #{eImg}, " +
+            "e_body = #{eBody}, e_type = #{eType}, e_source = #{eSource}, e_video = #{eVideo} WHERE e_id = #{eId}")
+    Integer updateEssayByEId(Essay essay);
+
+    /**
+     * 根据id文本删除文章
+     * @param eId
+     * @return
+     */
+    @Delete("DELETE FROM essay WHERE e_id = #{eId}")
+    Integer deleteEssayByEId(Integer eId);
 }

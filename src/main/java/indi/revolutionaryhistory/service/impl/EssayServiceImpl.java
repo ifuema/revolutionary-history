@@ -6,6 +6,7 @@ import indi.revolutionaryhistory.service.EssayService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -57,6 +58,50 @@ public class EssayServiceImpl implements EssayService {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * 新增文章
+     * @param essay
+     * @return
+     */
+    @Override
+    public boolean saveEssay(Essay essay) {
+        essay.seteTime(Instant.now());
+        essay.seteNum(0);
+        if (essayMapper.insertEssay(essay) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 根据id修改文章
+     * @param essay
+     * @return
+     */
+    @Override
+    public boolean modifyEssayByEId(Essay essay) {
+        if (essayMapper.updateEssayByEId(essay) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 根据id文本删除文章
+     * @param eId
+     * @return
+     */
+    @Override
+    public boolean removeEssayByEId(Integer eId) {
+        if (essayMapper.deleteEssayByEId(eId) >= 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
