@@ -6,6 +6,7 @@ import indi.revolutionaryhistory.service.PeopleService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -48,6 +49,48 @@ public class PeopleServiceImpl implements PeopleService {
             return false;
         } else {
             return true;
+        }
+    }
+
+    /**
+     * 新增人物
+     * @param people
+     * @return
+     */
+    @Override
+    public boolean savePeople(People people) {
+        if (peopleMapper.insertPeople(people) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 根据id修改人物
+     * @param people
+     * @return
+     */
+    @Override
+    public boolean modifyPeopleByPId(People people) {
+        if (peopleMapper.updatePeopleByPId(people) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 根据id文本删除人物
+     * @param pId
+     * @return
+     */
+    @Override
+    public boolean removePeopleByPId(Integer pId) {
+        if (peopleMapper.deletePeopleByPId(pId) >= 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

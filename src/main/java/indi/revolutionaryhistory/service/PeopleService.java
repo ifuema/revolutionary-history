@@ -27,4 +27,25 @@ public interface PeopleService {
      * @return
      */
     boolean checkPeopleByPId(Integer pId);
+
+    /**
+     * 新增人物
+     * @param people
+     * @return
+     */
+    boolean savePeople(People people);
+
+    /**
+     * 根据id修改人物
+     * @param people
+     * @return
+     */
+    boolean modifyPeopleByPId(People people);
+
+    /**
+     * 根据id文本删除人物
+     * @param pId
+     * @return
+     */
+    boolean removePeopleByPId(Integer pId);
 }

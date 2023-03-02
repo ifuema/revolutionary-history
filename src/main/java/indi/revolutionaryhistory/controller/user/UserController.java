@@ -1,6 +1,5 @@
 package indi.revolutionaryhistory.controller.user;
 
-import indi.revolutionaryhistory.entity.Essay;
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Login;
 import indi.revolutionaryhistory.entity.groups.Register;

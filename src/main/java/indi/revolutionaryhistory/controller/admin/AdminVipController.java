@@ -2,12 +2,10 @@ package indi.revolutionaryhistory.controller.admin;
 
 import indi.revolutionaryhistory.entity.Admin;
 import indi.revolutionaryhistory.entity.Essay;
+import indi.revolutionaryhistory.entity.People;
 import indi.revolutionaryhistory.entity.User;
 import indi.revolutionaryhistory.entity.groups.Register;
-import indi.revolutionaryhistory.service.AdminService;
-import indi.revolutionaryhistory.service.DiscussService;
-import indi.revolutionaryhistory.service.EssayService;
-import indi.revolutionaryhistory.service.UserService;
+import indi.revolutionaryhistory.service.*;
 import indi.revolutionaryhistory.vo.ResultCode;
 import indi.revolutionaryhistory.vo.ResultVO;
 import jakarta.annotation.Resource;
@@ -29,12 +27,15 @@ public class AdminVipController {
     private DiscussService discussService;
     @Resource
     private EssayService essayService;
+    @Resource
+    private PeopleService peopleService;
     private int pageSize = 5;
     private final ResultVO<?> success = new ResultVO<>();
     private final ResultVO<?> essayNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "文章不存在！");
     private final ResultVO<?> saveFailed = new ResultVO<>(ResultCode.FAILED, "保存失败！");
     private final ResultVO<?> deleteFailed = new ResultVO<>(ResultCode.FAILED, "删除失败！");
     private final ResultVO<?> userNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "用户不存在！");
+    private final ResultVO<?> peopleNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "人物不存在！");
     private final ResultVO<?> discussNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "评论不存在！");
     private final ResultVO<?> noData = new ResultVO<>(ResultCode.VALIDATE_FAILED, "当前页不存在数据！");
     private final ResultVO<?> adminNotExist = new ResultVO<>(ResultCode.VALIDATE_FAILED, "管理员不存在！");
@@ -126,6 +127,42 @@ public class AdminVipController {
             }
         } else {
             return essayNotExist;
+        }
+    }
+
+    @PostMapping("/people")
+    public ResultVO<?> addPeople(@RequestBody @Validated({Register.class}) People people) {
+        if (peopleService.savePeople(people)) {
+            return new ResultVO<>(people.getpId());
+        } else {
+            return saveFailed;
+        }
+    }
+
+    @PutMapping("/people/{pId}")
+    public ResultVO<?> changePeople(@RequestBody @Validated({Register.class}) People people, @PathVariable Integer pId) {
+        if (peopleService.checkPeopleByPId(pId)) {
+            people.setpId(pId);
+            if (peopleService.modifyPeopleByPId(people)) {
+                return success;
+            } else {
+                return saveFailed;
+            }
+        } else {
+            return peopleNotExist;
+        }
+    }
+
+    @DeleteMapping("/people/{pId}")
+    public ResultVO<?> deletePeople(@PathVariable Integer pId) {
+        if (peopleService.checkPeopleByPId(pId)) {
+            if (peopleService.removePeopleByPId(pId)) {
+                return success;
+            } else {
+                return deleteFailed;
+            }
+        } else {
+            return peopleNotExist;
         }
     }
 }
