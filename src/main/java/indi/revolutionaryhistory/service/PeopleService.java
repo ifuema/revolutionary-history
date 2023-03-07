@@ -48,4 +48,6 @@ public interface PeopleService {
      * @return
      */
     boolean removePeopleByPId(Integer pId);
+
+    Integer getPeopleCount();
 }

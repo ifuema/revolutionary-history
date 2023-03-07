@@ -60,4 +60,7 @@ public interface PeopleMapper {
      */
     @Delete("DELETE FROM people WHERE p_id = #{pId}")
     Integer deletePeopleByPId(Integer pId);
+
+    @Select("SELECT COUNT(*) FROM people")
+    Integer selectPeopleCount();
 }

@@ -141,4 +141,9 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public Integer getUserCount() {
+        return userMapper.selectUserCount();
+    }
 }

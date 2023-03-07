@@ -68,6 +68,24 @@ public class AdminVipController {
         }
     }
 
+    @GetMapping("/user")
+    public ResultVO<Integer> userCount() {
+        Integer dataUserCount = userService.getUserCount();
+        return new ResultVO<>(dataUserCount);
+    }
+
+    @GetMapping("/essay")
+    public ResultVO<Integer> essayCount() {
+        Integer dataEssayCount = essayService.getEssayCount();
+        return new ResultVO<>(dataEssayCount);
+    }
+
+    @GetMapping("/people")
+    public ResultVO<Integer> peopleCount() {
+        Integer dataPeopleCount = peopleService.getPeopleCount();
+        return new ResultVO<>(dataPeopleCount);
+    }
+
     @DeleteMapping("/user/{uId}")
     public ResultVO<?> deleteUser(@PathVariable Integer uId) {
         if (userService.checkUserByUId(uId)) {

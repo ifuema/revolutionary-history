@@ -72,4 +72,6 @@ public interface UserService {
      * @return
      */
     boolean removeUserByUId(Integer uId);
+
+    Integer getUserCount();
 }

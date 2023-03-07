@@ -93,4 +93,9 @@ public class PeopleServiceImpl implements PeopleService {
             return false;
         }
     }
+
+    @Override
+    public Integer getPeopleCount() {
+        return peopleMapper.selectPeopleCount();
+    }
 }

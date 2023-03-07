@@ -50,4 +50,6 @@ public interface EssayService {
      * @return
      */
     boolean removeEssayByEId(Integer eId);
+
+    Integer getEssayCount();
 }

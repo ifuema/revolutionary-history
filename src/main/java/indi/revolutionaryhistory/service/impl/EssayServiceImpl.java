@@ -104,4 +104,9 @@ public class EssayServiceImpl implements EssayService {
             return false;
         }
     }
+
+    @Override
+    public Integer getEssayCount() {
+        return essayMapper.selectEssayCount();
+    }
 }

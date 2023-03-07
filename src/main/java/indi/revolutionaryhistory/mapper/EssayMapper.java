@@ -63,4 +63,7 @@ public interface EssayMapper {
      */
     @Delete("DELETE FROM essay WHERE e_id = #{eId}")
     Integer deleteEssayByEId(Integer eId);
+
+    @Select("SELECT COUNT(*) FROM essay")
+    Integer selectEssayCount();
 }
