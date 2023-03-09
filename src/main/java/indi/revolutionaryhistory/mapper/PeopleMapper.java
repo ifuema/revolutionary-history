@@ -39,8 +39,8 @@ public interface PeopleMapper {
      * @param people
      * @return
      */
-    @Insert("INSERT INTO people (p_name, p_alias, p_citizenship, p_nationality, p_birth, p_death, p_university, p_occupation, p_work, p_achievement, p_original_name, p_character, p_experience, p_life, p_evaluate, p_influence, p_commemoration, p_img) " +
-            "VALUES (#{pName}, #{pAlias}, #{pCitizenship}, #{pNationality}, #{pBirth}, #{pDeath}, #{pUniversity}, #{pOccupation}, #{pWork}, #{pAchievement}, #{pOriginalName}, #{pCharacter}, #{pExperience}, #{pLife}, #{pEvaluate}, #{pInfluence}, #{pCommemoration}, #{pImg})")
+    @Insert("INSERT INTO people (p_name, p_alias, p_citizenship, p_nationality, p_birth, p_death, p_university, p_occupation, p_work, p_achievement, p_original_name, p_character, p_experience, p_life, p_evaluate, p_influence, p_commemoration, p_img, p_num) " +
+            "VALUES (#{pName}, #{pAlias}, #{pCitizenship}, #{pNationality}, #{pBirth}, #{pDeath}, #{pUniversity}, #{pOccupation}, #{pWork}, #{pAchievement}, #{pOriginalName}, #{pCharacter}, #{pExperience}, #{pLife}, #{pEvaluate}, #{pInfluence}, #{pCommemoration}, #{pImg}, #{pNum})")
     @Options(useGeneratedKeys = true, keyProperty = "pId", keyColumn = "p_id")
     Integer insertPeople(People people);
 
@@ -63,4 +63,7 @@ public interface PeopleMapper {
 
     @Select("SELECT COUNT(*) FROM people")
     Integer selectPeopleCount();
+
+    @Update("UPDATE people SET p_num = p_num + 1 WHERE p_id = #{pId}")
+    Integer updatePNumAddByPId(Integer pId);
 }

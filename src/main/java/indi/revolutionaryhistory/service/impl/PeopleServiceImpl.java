@@ -6,7 +6,6 @@ import indi.revolutionaryhistory.service.PeopleService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -59,6 +58,7 @@ public class PeopleServiceImpl implements PeopleService {
      */
     @Override
     public boolean savePeople(People people) {
+        people.setpNum(0);
         if (peopleMapper.insertPeople(people) >= 1) {
             return true;
         } else {
@@ -97,5 +97,14 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Integer getPeopleCount() {
         return peopleMapper.selectPeopleCount();
+    }
+
+    @Override
+    public boolean modifyPNumAddByPId(Integer pId) {
+        if (peopleMapper.updatePNumAddByPId(pId) >= 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

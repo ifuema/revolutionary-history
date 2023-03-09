@@ -21,6 +21,7 @@ public class EssayMapperSqlProvider {
                 essay.seteSource("%" + essay.geteSource() + "%");
                 WHERE("e_source LIKE #{essay.eSource}");
             }
+            ORDER_BY("e_num DESC");
             LIMIT("#{pageSize}").OFFSET("#{startIndex}");
         }}.toString();
     }

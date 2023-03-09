@@ -50,4 +50,6 @@ public interface PeopleService {
     boolean removePeopleByPId(Integer pId);
 
     Integer getPeopleCount();
+
+    boolean modifyPNumAddByPId(Integer pId);
 }

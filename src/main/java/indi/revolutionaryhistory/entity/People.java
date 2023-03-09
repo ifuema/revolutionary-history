@@ -40,6 +40,7 @@ public class People {
   private String pCommemoration;
   @NotBlank(message = "图片不能为空！", groups = {Register.class})
   private String pImg;
+  private Integer pNum;
 
 
   @Override
@@ -64,6 +65,7 @@ public class People {
             ", pInfluence='" + pInfluence + '\'' +
             ", pCommemoration='" + pCommemoration + '\'' +
             ", pImg='" + pImg + '\'' +
+            ", pNum=" + pNum +
             '}';
   }
 
@@ -217,5 +219,13 @@ public class People {
 
   public void setpCommemoration(String pCommemoration) {
     this.pCommemoration = pCommemoration;
+  }
+
+  public Integer getpNum() {
+    return pNum;
+  }
+
+  public void setpNum(Integer pNum) {
+    this.pNum = pNum;
   }
 }

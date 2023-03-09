@@ -48,6 +48,7 @@ public class PeopleController {
         if (dataPeople == null) {
             return peopleNotExist;
         } else {
+            peopleService.modifyPNumAddByPId(pId);
             return new ResultVO<>(dataPeople);
         }
     }

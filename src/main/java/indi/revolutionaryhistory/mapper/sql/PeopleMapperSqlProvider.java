@@ -39,6 +39,7 @@ public class PeopleMapperSqlProvider {
                 people.setpCharacter("%" + people.getpCharacter() + "%");
                 WHERE("p_character LIKE #{people.pCharacter}");
             }
+            ORDER_BY("p_num DESC");
             LIMIT("#{pageSize}").OFFSET("#{startIndex}");
         }}.toString();
     }
